@@ -1,33 +1,40 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public class Tile{
+public class Tile
+{
     public int XCord { get; set; }
     public int YCord { get; set; }
     public Transform BaseTransform { get; set; }
+	public Resource ResourceType { get; set; }
+	public Vector3 Destination { get ; set; }
+	public bool StateMoving { get ; set; }
+	 
 
-    public Tile(int xcord, int ycord, Transform basetransform)
+	public Tile(int xcord, int ycord, Transform basetransform, Resource resource)
     {
         this.XCord = xcord;
         this.YCord = ycord;
         this.BaseTransform = basetransform;
-    }
-}
-public class Selector
-{
-    public int XCord { get; set; }
-    public int YCord { get; set; }
-    public Tile CurrentTile { get; set; }
-    public Transform SelectorSprite { get; set; }
-
-    public Selector(Tile currentTile, Transform sprite)
-    {
-        this.CurrentTile = currentTile;
-        this.SelectorSprite = sprite;
-        this.XCord = CurrentTile.XCord;
-        this.YCord = CurrentTile.YCord;
-        SelectorSprite.position = CurrentTile.BaseTransform.position;
+		this.ResourceType = resource;
+		this.Destination = BaseTransform.position;
+		StateMoving = false;
+		BaseTransform.GetComponent<SpriteRenderer> ().color = ResourceType.TileColor;
     }
 
+	public void Update()
+	{
+		BaseTransform.GetComponent<SpriteRenderer> ().color = ResourceType.TileColor;
+		//print (BaseTransform.position != Destination);
+		if (BaseTransform.position == Destination)
+			StateMoving = false;
+		if (BaseTransform.position != Destination){
+			BaseTransform.position = Vector3.MoveTowards(BaseTransform.position, Destination, 5f);
+
+		}
+	}
+
 }
+
