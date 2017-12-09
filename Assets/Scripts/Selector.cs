@@ -10,7 +10,7 @@ public class Selector
 	public Transform SelectorSprite { get; set; }
 	public bool SelectorState { get; set; }
 
-	public Selector(Tile currentTile, Transform sprite)
+	public Selector(int size, Tile currentTile, Transform sprite)
 	{
 		this.CurrentTile = currentTile;
 		this.SelectorSprite = sprite;
@@ -18,6 +18,7 @@ public class Selector
 		this.YCord = CurrentTile.YCord;
 		SelectorSprite.position = CurrentTile.BaseTransform.position;
 		SelectorState = false;
+		SelectorSprite.localScale = new Vector3 (size * 1.1f, size * 1.1f, 0f);
 	}
 
 	public void Update(){

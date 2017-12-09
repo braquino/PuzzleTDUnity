@@ -13,7 +13,7 @@ public class Tile
 	public bool StateMoving { get ; set; }
 	 
 
-	public Tile(int xcord, int ycord, Transform basetransform, Resource resource)
+	public Tile(int xcord, int ycord, int size, Transform basetransform, Resource resource)
     {
         this.XCord = xcord;
         this.YCord = ycord;
@@ -22,6 +22,7 @@ public class Tile
 		this.Destination = BaseTransform.position;
 		StateMoving = false;
 		BaseTransform.GetComponent<SpriteRenderer> ().color = ResourceType.TileColor;
+		BaseTransform.localScale = new Vector3 (size, size, 0);
     }
 
 	public void Update()

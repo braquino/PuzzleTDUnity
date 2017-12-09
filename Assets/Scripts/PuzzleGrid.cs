@@ -8,7 +8,7 @@ public class PuzzleGrid : MonoBehaviour {
 	// Constants declarations
 	private const int _maxGridWidth = 10;
 	private const int _maxGridHeight = 10;
-	private const int _size = 50;
+	private const int _size = 25;
 
 	// Fields declaration
     public Transform _tile;
@@ -24,20 +24,21 @@ public class PuzzleGrid : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		
 		_check = new CheckMatch (this);
 		for (int i = 0; i < _maxGridWidth; i++)
         {
 			for (int j = 0; j < _maxGridHeight; j++)
             {
 				Resource resType = _resources[Random.Range (0, _resources.Count)];
-				_gridList.Add(new Tile(i, j, Instantiate(_tile, 
-														new Vector3(_size + i * _size, _size + j * _size, 0), 
-                                                        Quaternion.identity, 
-														this.transform), resType));
+				_gridList.Add(new Tile(i, j, _size, Instantiate(_tile, 
+															new Vector3(_size + i * _size, _size + j * _size, 0), 
+                                                        	Quaternion.identity, 
+															this.transform), resType));
 
             }
         }
-        _selector = new Selector(_gridList[0], _selectorSprite);
+        _selector = new Selector(_size, _gridList[0], _selectorSprite);
 	}
 	
 	// Update is called once per frame
@@ -51,7 +52,10 @@ public class PuzzleGrid : MonoBehaviour {
 
 		if (!_selector.SelectorState) {
 			SendTop ();
-			print (_check.CheckSword ());
+			var sword = _check.CheckSword();
+			var bow = _check.CheckBow();
+			if (bow != "Nothing" || sword != "Nothing")
+				print (bow + " - " + sword);
 		}
 		foreach (var tile in _gridList) {
 			tile.Update ();
@@ -102,7 +106,6 @@ public class PuzzleGrid : MonoBehaviour {
 			Vector3 destFinalPos = origin.BaseTransform.position;
 			Vector3 origFinalPos = destination.BaseTransform.position;
 			origin.BaseTransform.position = destination.BaseTransform.position;
-			//destination.BaseTransform.position = dummyPosition;
 			destination.Destination = destFinalPos;
 			origin.Destination = origFinalPos;
 			origin.StateMoving = true;
