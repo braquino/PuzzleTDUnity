@@ -5,15 +5,22 @@ using UnityEngine;
 public class Sword : MonoBehaviour {
 
 	private Animator _animator;
+	private Vector3 _destination;
 
 	// Use this for initialization
 	void Start () {
 		_animator = GetComponent<Animator> ();
-		_animator.SetTrigger ("WalkUp");
+
+		_destination = new Vector3 (600, 400, 0);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		this.transform.position = Vector3.MoveTowards(this.transform.position, new Vector3(600, 600, 0), 1f);
+		if (this.transform.position != _destination) {
+			this.transform.position = Vector3.MoveTowards (this.transform.position, new Vector3 (600, 400, 0), 1f);
+			_animator.SetBool ("WalkingUp", true);
+		}
+		else
+			_animator.SetBool ("WalkingUp", false);
 	}
 }
