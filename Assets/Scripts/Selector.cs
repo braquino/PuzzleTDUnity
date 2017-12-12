@@ -16,13 +16,15 @@ public class Selector
 		this.SelectorSprite = sprite;
 		this.XCord = CurrentTile.XCord;
 		this.YCord = CurrentTile.YCord;
-		SelectorSprite.position = CurrentTile.BaseTransform.position;
 		SelectorState = false;
 		SelectorSprite.localScale = new Vector3 (size * 1.1f, size * 1.1f, 0f);
+		Update ();
 	}
 
 	public void Update(){
-		SelectorSprite.position = CurrentTile.BaseTransform.position;
+		Vector3 changePosition = CurrentTile.BaseTransform.position;
+		changePosition.z = -1;
+		SelectorSprite.position = changePosition;
 		if (SelectorState)
 			SelectorSprite.GetComponent<SpriteRenderer> ().color = Color.red;
 		else
